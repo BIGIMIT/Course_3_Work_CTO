@@ -54,7 +54,7 @@ public partial class MainForm : Form
         var q2 = from customer in service.ListCustomer
                  join car in service.ListCar on customer.IdCustomer equals car.IdCustomer
                  select new
-                 { 
+                 {
                      Brand = car.Brand,
                      Color = car.Color,
                      Number = car.Number,
@@ -62,7 +62,7 @@ public partial class MainForm : Form
                      Owner = customer.FullNameOfCustomer,
                      IdCar = car.IdCar
                  };
-                     
+
         dataGridCar.DataSource = q2.ToList();
         dataGridCar.Columns[0].HeaderText = "Марка";
         dataGridCar.Columns[1].HeaderText = "Колір";
@@ -72,14 +72,14 @@ public partial class MainForm : Form
         dataGridCar.Columns[4].HeaderText = "Власник";
         dataGridCar.Columns[4].Width = 220;
         dataGridCar.Columns[5].Visible = false;
-        
+
     }
     private void Paint_Work()
     {
 
         var q = from work in service.ListWork
                 join car in service.ListCar on work.IdCar equals car.IdCar
-                join worker in service.ListWorker on work.IdWorker equals worker.IdWorker 
+                join worker in service.ListWorker on work.IdWorker equals worker.IdWorker
                 select new
                 {
                     WorkerName = worker.FullNameOfWorker,
@@ -111,7 +111,8 @@ public partial class MainForm : Form
 
         var q = from work in service.ListWork
                 join car in service.ListCar on work.IdCar equals car.IdCar
-                join worker in service.ListWorker on work.IdWorker equals worker.IdWorker where work.DateOfWork.ToString() == s
+                join worker in service.ListWorker on work.IdWorker equals worker.IdWorker
+                where work.DateOfWork.ToString() == s
                 select new
                 {
                     WorkerName = worker.FullNameOfWorker,
@@ -152,7 +153,7 @@ public partial class MainForm : Form
         dataGridWorker.Columns[3].HeaderText = "Ранг";
         dataGridWorker.Columns[4].Visible = false;
     }
-  
+
     private void button_ReadFile(object sender, EventArgs e)
     {
         dataGridCustomer.DataSource = null;
@@ -186,7 +187,7 @@ public partial class MainForm : Form
         Paint_Worker();
 
         panelMaintenance.Visible = false;
-        
+
     }
     private void button_RewriteFile(object sender, EventArgs e)
     {
@@ -306,8 +307,9 @@ public partial class MainForm : Form
             textBoxCar2.Text = "";
             textBoxCar3.Text = "";
             textBoxCar4.Text = "";
-        }
+        } while (false) ;
     }
+
     private void button_DelCar_Click(object sender, EventArgs e)
     {
         string idCustomer = "" + Convert.ToString(dataGridCar.CurrentRow.Cells[0].Value);
@@ -335,14 +337,16 @@ public partial class MainForm : Form
     }
     private void comboBox_Request_SelectedIndexChanged(object sender, EventArgs e)
     {
-        int index = comboBox.SelectedIndex+1;
-        List <int> allCars = new List <int>();
-        List <int> allJob = new List <int>();
+        int index = comboBox.SelectedIndex + 1;
+        List<int> allCars = new List<int>();
+        List<int> allJob = new List<int>();
         switch (index)
         {
             case 1:
                 panelMaster.Visible = false;
                 panelWork.Visible = false;
+                comboBoxRequest.Items.Clear();
+
                 comboBoxRequest.Items.Clear();
                 panelMaintenance.Visible = true;
                 var combotBox1 = from car in service.ListCar
@@ -352,7 +356,7 @@ public partial class MainForm : Form
                                      IdCar = car.IdCar,
                                      CustomerName = customer.FullNameOfCustomer
                                  };
-                
+
                 foreach (var c in combotBox1)
                 {
                     if (!allCars.Contains(c.IdCar)) { comboBoxRequest.Items.Add(c.CustomerName); }
@@ -364,7 +368,7 @@ public partial class MainForm : Form
                 panelMaintenance.Visible = false;
                 panelWork.Visible = false;
                 comboBoxRequest.Items.Clear();
-                panelMaster.Visible = true;                
+                panelMaster.Visible = true;
                 var combotBox2 = from car in service.ListCar
                                  join work in service.ListWork on car.IdCar equals work.IdCar
                                  join worker in service.ListWorker on work.IdWorker equals worker.IdWorker
@@ -379,12 +383,12 @@ public partial class MainForm : Form
                     allJob.Add(c.IdWorker);
                 }
                 break;
-                
 
             case 3:
                 panelMaster.Visible = false;
                 panelMaintenance.Visible = false;
                 comboBoxRequest.Items.Clear();
+                panelMaintenance.Visible = false;
                 panelWork.Visible = true;
                 break;
         }
@@ -395,7 +399,8 @@ public partial class MainForm : Form
         int index = 1001 + Convert.ToInt32(comboBoxRequest.SelectedIndex);
         var request_1 = from worker in service.ListWorker
                         join work in service.ListWork on worker.IdWorker equals work.IdWorker
-                        join car in service.ListCar on work.IdCar equals car.IdCar where car.IdCustomer == index
+                        join car in service.ListCar on work.IdCar equals car.IdCar
+                        where car.IdCustomer == index
                         select new
                         {
                             FullNameOfMaster = worker.FullNameOfWorker,
@@ -405,9 +410,9 @@ public partial class MainForm : Form
                             Cost = work.PriceOfDetails,
                             NameCar = car.Brand,
                             CarDate = car.DateOfRelease,
-        
+
                         };
-        
+
 
         dataGridRequest.DataSource = null;
         dataGridRequest.Refresh();
@@ -453,43 +458,25 @@ public partial class MainForm : Form
         dataGridRequest.Columns[3].HeaderText = "Вартість роботи";
         dataGridRequest.Columns[3].Width = 100;
     }
-
-
-    private void dataGridCustomer_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
-
-    }
-
-    private void label5_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void label11_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    private void label17_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void dataGridWorker_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
-
-    }
-    private void dataGridRequest_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-    private void dataGridWork_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-
     private void dateTime_DataOfWork_ValueChanged(object sender, EventArgs e)
     {
         Paint_Work_1(Convert.ToString(dateTimeDataOfWork.Value.Date));
     }
-}
+    private void dataGridCustomer_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
 
+    }
+    private void dateTimeDataOfWork_ValueChanged(object sender, EventArgs e)
+    {
+        Paint_Work_1(Convert.ToString(dateTimeDataOfWork.Value.Date));
+    }
+    private void label5_Click(object sender, EventArgs e) { }
+    private void label11_Click(object sender, EventArgs e) { }
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
+    private void label17_Click(object sender, EventArgs e) { }
+    private void dataGridWorker_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+    private void dataGridRequest_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+    private void dataGridWork_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+
+}
