@@ -761,6 +761,9 @@
         private DateTimePicker dateTimePickerCustomer;
         private TabPage TabWork;
         private TabPage TabWorker;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
         private DataGridView dataGridCar;
         private DataGridView dataGridWorker;
         private DataGridView dataGridWork;

@@ -54,7 +54,7 @@ public partial class MainForm : Form
         var q2 = from customer in service.ListCustomer
                  join car in service.ListCar on customer.IdCustomer equals car.IdCustomer
                  select new
-                 {
+                 { 
                      Brand = car.Brand,
                      Color = car.Color,
                      Number = car.Number,
@@ -62,7 +62,7 @@ public partial class MainForm : Form
                      Owner = customer.FullNameOfCustomer,
                      IdCar = car.IdCar
                  };
-
+                     
         dataGridCar.DataSource = q2.ToList();
         dataGridCar.Columns[0].HeaderText = "Марка";
         dataGridCar.Columns[1].HeaderText = "Колір";
@@ -72,14 +72,14 @@ public partial class MainForm : Form
         dataGridCar.Columns[4].HeaderText = "Власник";
         dataGridCar.Columns[4].Width = 220;
         dataGridCar.Columns[5].Visible = false;
-
+        
     }
     private void Paint_Work()
     {
 
         var q = from work in service.ListWork
                 join car in service.ListCar on work.IdCar equals car.IdCar
-                join worker in service.ListWorker on work.IdWorker equals worker.IdWorker
+                join worker in service.ListWorker on work.IdWorker equals worker.IdWorker 
                 select new
                 {
                     WorkerName = worker.FullNameOfWorker,
@@ -153,7 +153,7 @@ public partial class MainForm : Form
         dataGridWorker.Columns[3].HeaderText = "Ранг";
         dataGridWorker.Columns[4].Visible = false;
     }
-
+  
     private void button_ReadFile(object sender, EventArgs e)
     {
         dataGridCustomer.DataSource = null;
@@ -187,7 +187,7 @@ public partial class MainForm : Form
         Paint_Worker();
 
         panelMaintenance.Visible = false;
-
+        
     }
     private void button_RewriteFile(object sender, EventArgs e)
     {
@@ -352,16 +352,16 @@ public partial class MainForm : Form
                 var combotBox1 = from car in service.ListCar
                                  join customer in service.ListCustomer on car.IdCustomer equals customer.IdCustomer
                                  select new
-                                 {
+                {
                                      IdCar = car.IdCar,
                                      CustomerName = customer.FullNameOfCustomer
                                  };
 
                 foreach (var c in combotBox1)
-                {
+                    {
                     if (!allCars.Contains(c.IdCar)) { comboBoxRequest.Items.Add(c.CustomerName); }
                     allCars.Add(c.IdCar);
-                }
+                                }
                 break;
 
             case 2:
@@ -373,12 +373,12 @@ public partial class MainForm : Form
                                  join work in service.ListWork on car.IdCar equals work.IdCar
                                  join worker in service.ListWorker on work.IdWorker equals worker.IdWorker
                                  select new
-                                 {
+                                {
                                      IdWorker = worker.IdWorker,
                                      FullNameOfWorker = worker.FullNameOfWorker
                                  };
                 foreach (var c in combotBox2)
-                {
+                                    {
                     if (!allJob.Contains(c.IdWorker)) { comboBoxMaster.Items.Add(c.FullNameOfWorker); }
                     allJob.Add(c.IdWorker);
                 }
@@ -410,9 +410,9 @@ public partial class MainForm : Form
                             Cost = work.PriceOfDetails,
                             NameCar = car.Brand,
                             CarDate = car.DateOfRelease,
-
+        
                         };
-
+        
 
         dataGridRequest.DataSource = null;
         dataGridRequest.Refresh();
@@ -478,5 +478,5 @@ public partial class MainForm : Form
     private void dataGridRequest_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     private void dataGridWork_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-
+       
 }
